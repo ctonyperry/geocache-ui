@@ -1,0 +1,24 @@
+
+<agm-map [latitude]="lat" [longitude]="lng"  (boundsChange)="boundsChange($event)" [zoom]="zoom" (mapDblClick)="mapDblClick($event)">
+  <agm-marker [iconUrl]="icon" *ngFor="let cache of geoCache" [latitude]="cache[2]" [longitude]="cache[3]" clickable="true" (click)="openInfoWindow($event)">
+      <agm-info-window width="600px">
+          <div class="infoform" *ngIf="!editing">
+              <h2 class="titleEdit" >{{cache[1]|titlecase}}</h2>           
+                <div >{{cache[4]}}</div>
+                <input type="button" value="Edit" (click)="toggleEditMode()"/>
+                <button class="deleteButton" (click)="deleteCacheById(cache[0], $event)">Delete</button>          
+          </div>
+          <div class="infoform" *ngIf="editing">
+              <h2>Edit Geocache</h2>           
+                <input class="titleEdit" type=text  value="{{cache[1]|titlecase}}" id="title" (keyup)="updateFormValue($event)">
+                <textarea placeholder="Description"  (keyup)="updateFormValue($event)">{{cache[4]}}</textarea>
+                <input type="button" value="Update" (click)="updateCache($event)"/> <input type="button" value="Cancel" (click)="toggleEditMode()"/>
+                <button class="deleteButton" (click)="deleteCacheById(cache[0], $event)">Delete</button>          
+          </div>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+  minlat: {{minLat}}
+  maxlat: {{maxLat}}
+  minlong: {{minLng}}
+  maxlong: {{maxLng}}
